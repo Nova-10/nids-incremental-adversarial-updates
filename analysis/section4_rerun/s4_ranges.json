@@ -1,0 +1,14 @@
+{
+ "test_fpr_cal_round5_range": [
+  13.22162162162162,
+  16.93513513513513
+ ],
+ "val_fpr_range_all_rows": [
+  5.0,
+  5.0
+ ],
+ "initial_clean_fixed_fpr_round5_frozen": [
+  15.03513513513513,
+  16.294594594594592
+ ]
+}

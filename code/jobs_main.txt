@@ -1,0 +1,60 @@
+--seed 17 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s17 --out-dir results_main
+--seed 17 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s17 --out-dir results_main
+--seed 17 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s17 --out-dir results_main
+--seed 18 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s18 --out-dir results_main
+--seed 18 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s18 --out-dir results_main
+--seed 18 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s18 --out-dir results_main
+--seed 19 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s19 --out-dir results_main
+--seed 19 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s19 --out-dir results_main
+--seed 19 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s19 --out-dir results_main
+--seed 20 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s20 --out-dir results_main
+--seed 20 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s20 --out-dir results_main
+--seed 20 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s20 --out-dir results_main
+--seed 21 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s21 --out-dir results_main
+--seed 21 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s21 --out-dir results_main
+--seed 21 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s21 --out-dir results_main
+--seed 22 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s22 --out-dir results_main
+--seed 22 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s22 --out-dir results_main
+--seed 22 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s22 --out-dir results_main
+--seed 23 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s23 --out-dir results_main
+--seed 23 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s23 --out-dir results_main
+--seed 23 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s23 --out-dir results_main
+--seed 24 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s24 --out-dir results_main
+--seed 24 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s24 --out-dir results_main
+--seed 24 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s24 --out-dir results_main
+--seed 25 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s25 --out-dir results_main
+--seed 25 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s25 --out-dir results_main
+--seed 25 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s25 --out-dir results_main
+--seed 26 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s26 --out-dir results_main
+--seed 26 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s26 --out-dir results_main
+--seed 26 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s26 --out-dir results_main
+--seed 27 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s27 --out-dir results_main
+--seed 27 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s27 --out-dir results_main
+--seed 27 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s27 --out-dir results_main
+--seed 28 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s28 --out-dir results_main
+--seed 28 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s28 --out-dir results_main
+--seed 28 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s28 --out-dir results_main
+--seed 29 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s29 --out-dir results_main
+--seed 29 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s29 --out-dir results_main
+--seed 29 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s29 --out-dir results_main
+--seed 30 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s30 --out-dir results_main
+--seed 30 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s30 --out-dir results_main
+--seed 30 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s30 --out-dir results_main
+--seed 31 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s31 --out-dir results_main
+--seed 31 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s31 --out-dir results_main
+--seed 31 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s31 --out-dir results_main
+--seed 32 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s32 --out-dir results_main
+--seed 32 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s32 --out-dir results_main
+--seed 32 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s32 --out-dir results_main
+--seed 33 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s33 --out-dir results_main
+--seed 33 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s33 --out-dir results_main
+--seed 33 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s33 --out-dir results_main
+--seed 34 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s34 --out-dir results_main
+--seed 34 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s34 --out-dir results_main
+--seed 34 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s34 --out-dir results_main
+--seed 35 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s35 --out-dir results_main
+--seed 35 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s35 --out-dir results_main
+--seed 35 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s35 --out-dir results_main
+--seed 36 --attack-steps 1 --attack-mode gradient --run-id m_fgsm_s36 --out-dir results_main
+--seed 36 --attack-steps 5 --attack-mode gradient --run-id m_bim5_s36 --out-dir results_main
+--seed 36 --attack-steps 1 --attack-mode decision-only --static-decision-arm --run-id m_decision_s36 --out-dir results_main

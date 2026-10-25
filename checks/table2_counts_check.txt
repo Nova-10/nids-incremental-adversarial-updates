@@ -1,0 +1,3 @@
+official training partition (Zenodo testing-set file): 175341 benign 56000 malicious 119341
+official test partition (Zenodo training-set file): 82332 benign 37000 malicious 45332
+initial/validation/adaptation (benign, malicious) across seeds 17-36: {((39200, 83538), (8400, 17901), (8400, 17902))}

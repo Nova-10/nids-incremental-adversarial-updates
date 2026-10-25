@@ -1,0 +1,1035 @@
+[
+ [
+  [
+   "Attacker knowledge",
+   "Perturbation space",
+   "Representative literature",
+   "In this study"
+  ],
+  [
+   "White-box (model gradients)",
+   "Feature space",
+   "FGSM [18], BIM [19], PGD [20], applied to NIDS in [1], [21]",
+   "FGSM-like and five-step BIM-like attacks on 11 normalized features"
+  ],
+  [
+   "Decision-only (hard labels, query limited)",
+   "Feature space",
+   "Decision-based attacks [22]",
+   "Randomized search, at most 50 queries per sample"
+  ],
+  [
+   "Any",
+   "Problem space (modified traffic)",
+   "[5], [23], [24]",
+   "Not covered"
+  ]
+ ],
+ [
+  [
+   "Partition",
+   "Benign",
+   "Malicious",
+   "Total",
+   "Role"
+  ],
+  [
+   "Initial training",
+   "39,200",
+   "83,538",
+   "122,738",
+   "Fit the preprocessor and the initial detector, source of replay memories and static examples"
+  ],
+  [
+   "Validation",
+   "8,400",
+   "17,901",
+   "26,301",
+   "Threshold selection only"
+  ],
+  [
+   "Adaptation stream",
+   "8,400",
+   "17,902",
+   "26,302",
+   "Source of the 100 malicious flows attacked in each round"
+  ],
+  [
+   "Official test",
+   "37,000",
+   "45,332",
+   "82,332",
+   "Evaluation only"
+  ],
+  [
+   "Total",
+   "93,000",
+   "164,673",
+   "257,673",
+   "Official training plus test partitions"
+  ]
+ ],
+ [
+  [
+   "Setting",
+   "Attacker access",
+   "Procedure",
+   "Volume per run",
+   "Static-arm training examples"
+  ],
+  [
+   "FGSM-like [18]",
+   "Gradients of the arm's current model",
+   "One step of size ε along the sign of the gradient of the loss for the benign label (target 0)",
+   "100 flows per round for updates, 1,000 flows for each evaluation",
+   "FGSM-like"
+  ],
+  [
+   "BIM-like [19]",
+   "Gradients of the arm's current model",
+   "Five steps of size ε/5, each followed by projection into the ε-ball and clipping, no random start",
+   "Same as FGSM-like",
+   "BIM-like"
+  ],
+  [
+   "Decision-only",
+   "Hard labels only, no scores or gradients",
+   "Random search. The original flow is queried first, then up to 49 random candidates within the ε-box, stopping at the first one labeled benign",
+   "At most 50 queries per flow, so at most 5,000 queries per round for updates and 50,000 for each evaluation",
+   "FGSM-like (cross-attack)"
+  ]
+ ],
+ [
+  [
+   "Arm",
+   "Before round 1",
+   "Update after each round",
+   "Purpose"
+  ],
+  [
+   "A. Frozen clean",
+   "Clean fit, 5 epochs",
+   "None",
+   "No-update reference"
+  ],
+  [
+   "B. Static adversarial",
+   "Clean fit, then 5 more epochs on the clean data plus 500 adversarial examples",
+   "None",
+   "One-time adversarial preparation"
+  ],
+  [
+   "C. Incremental with rehearsal",
+   "Clean fit, 5 epochs",
+   "2 epochs on new evasions plus a fixed 1,000-example clean memory",
+   "Primary incremental configuration, with a memory intended to limit forgetting"
+  ],
+  [
+   "D. Incremental without rehearsal",
+   "Clean fit, 5 epochs",
+   "2 epochs on new evasions only (all labeled malicious)",
+   "No-rehearsal ablation"
+  ],
+  [
+   "E. Balanced replay",
+   "Clean fit, 5 epochs",
+   "2 epochs on new evasions plus a 500/500 benign and malicious memory, learning rate 0.0002",
+   "Balanced-replay variant"
+  ],
+  [
+   "F. Clean-continued control",
+   "Clean fit, then 5 more epochs on the clean data",
+   "None",
+   "Descriptive comparison of extra clean training. Does not isolate causal effects"
+  ]
+ ],
+ [
+  [
+   "Measure",
+   "Definition",
+   "Threshold"
+  ],
+  [
+   "Pre-attack detection rate",
+   "Share of the fixed evaluation cohort that the arm's current model detects before any perturbation",
+   "Arm-specific (primary), fixed (secondary)"
+  ],
+  [
+   "Attack-induced ASR (primary)",
+   "Among evaluation flows detected before perturbation, the share classified benign after perturbation",
+   "Arm-specific (primary), fixed (secondary)"
+  ],
+  [
+   "Post-attack benign rate, all evaluation flows (secondary)",
+   "Share of the whole evaluation cohort classified benign after perturbation, including flows the arm already classified as benign before the attack. It is not a count of evasions caused by the attack",
+   "Arm-specific, fixed"
+  ],
+  [
+   "Clean recall and FPR",
+   "Recall on malicious test flows and false-positive rate on benign test flows, measured on the full test partition without perturbation",
+   "Arm-specific (primary), fixed (secondary)"
+  ],
+  [
+   "Clean F1",
+   "F1 score of the malicious class on the full test partition without perturbation, computed from the same confusion matrix as clean recall and FPR, at the same threshold",
+   "Arm-specific (primary), fixed (secondary)"
+  ],
+  [
+   "Clean AUC",
+   "Area under the ROC curve on the full test partition, a threshold-free measure of ranking quality",
+   "Not applicable"
+  ],
+  [
+   "Simulated labels",
+   "Cumulative number of successful evasions used for updates. Static training uses 500 pre-built examples and no post-deployment labels",
+   "Common fixed"
+  ],
+  [
+   "Adaptation-stage queries",
+   "Hard-label queries made by the decision-only attacker on each round's adaptation sample (100 flows per round, at most 50 queries per flow), summed over five rounds (reported in Section 5.7)",
+   "Per setting"
+  ],
+  [
+   "Evaluation-stage queries",
+   "Hard-label queries made by the decision-only attacker when running the decision-only attack against the 1,000-flow evaluation set at each round. They are recorded in the analysis files and are not compared in this paper",
+   "Per setting"
+  ],
+  [
+   "Training and attack time",
+   "Cumulative wall-clock time in one process: initial training, the static arm's example generation and extra training, and, in each round, attack generation and update training for every arm against its own current model. Test-time evaluation is excluded",
+   "Not applicable"
+  ]
+ ],
+ [
+  [
+   "Arm",
+   "Updates",
+   "Epochs per update",
+   "Vectors generated against",
+   "Epochs per vector",
+   "Clean-memory epochs",
+   "Declared"
+  ],
+  [
+   "M1, matched one-time",
+   "1, before round 1",
+   "2",
+   "Initial model",
+   "2",
+   "2",
+   "Before any run"
+  ],
+  [
+   "M1-e10, matched one-time, 10 epochs",
+   "1, before round 1",
+   "10",
+   "Initial model (M1's vectors)",
+   "10",
+   "10",
+   "Before any run"
+  ],
+  [
+   "M1-seq, matched one-time, five sequential updates",
+   "5, all before round 1",
+   "2",
+   "Initial model (M1's vectors)",
+   "2",
+   "10",
+   "After the first matched results, before its own runs"
+  ],
+  [
+   "M2, matched all-attempt incremental",
+   "5, one after each round",
+   "2",
+   "M2's current model in each round",
+   "2",
+   "10",
+   "Before any run"
+  ],
+  [
+   "B-dec, static with decision-only examples (decision-only setting)",
+   "1, before round 1",
+   "5, on the initial training part plus the examples",
+   "Initial model, decision-only attack",
+   "5",
+   "Not applicable",
+   "Before any run"
+  ]
+ ],
+ [
+  [
+   "Arm",
+   "FGSM-like",
+   "BIM-like",
+   "Decision-only"
+  ],
+  [
+   "A Frozen",
+   "7.80 ± 1.21",
+   "7.84 ± 1.25",
+   "4.48 ± 1.03"
+  ],
+  [
+   "B Static",
+   "4.49 ± 0.86",
+   "4.41 ± 0.85",
+   "2.27 ± 0.42"
+  ],
+  [
+   "C Rehearsal",
+   "7.49 ± 2.11",
+   "7.49 ± 2.11",
+   "4.46 ± 1.08"
+  ],
+  [
+   "D No rehearsal",
+   "6.08 ± 2.37",
+   "6.06 ± 2.41",
+   "4.18 ± 2.87"
+  ],
+  [
+   "E Balanced",
+   "7.28 ± 1.48",
+   "7.28 ± 1.48",
+   "4.07 ± 0.96"
+  ],
+  [
+   "F Control",
+   "6.84 ± 1.32",
+   "6.84 ± 1.32",
+   "3.53 ± 0.65"
+  ]
+ ],
+ [
+  [
+   "First minus second",
+   "FGSM-like",
+   "BIM-like",
+   "Decision-only"
+  ],
+  [
+   "B Static − A Frozen",
+   "−3.31 [−4.06, −2.56], 5/5",
+   "−3.43 [−4.15, −2.71], 5/5",
+   "−2.21 [−3.03, −1.39], 5/5"
+  ],
+  [
+   "F Control − A Frozen",
+   "−0.96 [−1.73, −0.19], 5/5",
+   "−1.00 [−1.71, −0.29], 5/5",
+   "−0.95 [−1.60, −0.29], 5/5"
+  ],
+  [
+   "B Static − F Control",
+   "−2.35 [−2.89, −1.81], 5/5",
+   "−2.43 [−2.92, −1.93], 5/5",
+   "−1.27 [−1.76, −0.77], 5/5"
+  ],
+  [
+   "C Rehearsal − A Frozen",
+   "−0.31 [−1.31, 0.69], 4/5",
+   "−0.35 [−1.27, 0.57], 4/5",
+   "−0.02 [−0.40, 0.37], 2/5"
+  ],
+  [
+   "C Rehearsal − B Static",
+   "3.00 [1.63, 4.37], 0/5",
+   "3.08 [1.71, 4.45], 0/5",
+   "2.19 [1.41, 2.98], 0/5"
+  ],
+  [
+   "D No rehearsal − A Frozen",
+   "−1.72 [−4.01, 0.57], 4/5",
+   "−1.78 [−4.13, 0.56], 4/5",
+   "−0.30 [−2.59, 2.00], 4/5"
+  ],
+  [
+   "E Balanced − A Frozen",
+   "−0.52 [−1.29, 0.24], 4/5",
+   "−0.56 [−1.39, 0.27], 4/5",
+   "−0.41 [−0.86, 0.04], 4/5"
+  ],
+  [
+   "E Balanced − B Static",
+   "2.79 [1.72, 3.85], 0/5",
+   "2.87 [1.77, 3.96], 0/5",
+   "1.80 [1.14, 2.46], 0/5"
+  ]
+ ],
+ [
+  [
+   "Setting",
+   "Arm",
+   "Pre-attack detection (cohort)",
+   "Post-attack benign rate (cohort)",
+   "Clean recall (test set)",
+   "Clean FPR",
+   "Clean F1 (test set)",
+   "AUC"
+  ],
+  [
+   "FGSM-like",
+   "A Frozen",
+   "100.00 ± 0.00",
+   "7.80 ± 1.21",
+   "89.28 ± 0.19",
+   "15.34 ± 0.67",
+   "88.49 ± 0.25",
+   "0.961"
+  ],
+  [
+   "",
+   "B Static",
+   "99.72 ± 0.18",
+   "4.76 ± 0.74",
+   "90.74 ± 0.37",
+   "15.98 ± 0.72",
+   "89.06 ± 0.36",
+   "0.966"
+  ],
+  [
+   "",
+   "C Rehearsal",
+   "99.08 ± 0.74",
+   "8.34 ± 2.47",
+   "89.05 ± 0.39",
+   "15.24 ± 0.60",
+   "88.39 ± 0.33",
+   "0.961"
+  ],
+  [
+   "",
+   "D No rehearsal",
+   "93.66 ± 1.22",
+   "12.04 ± 1.82",
+   "85.35 ± 1.47",
+   "13.91 ± 0.72",
+   "86.78 ± 0.88",
+   "0.954"
+  ],
+  [
+   "",
+   "E Balanced",
+   "99.76 ± 0.24",
+   "7.50 ± 1.47",
+   "89.30 ± 0.25",
+   "15.48 ± 0.85",
+   "88.45 ± 0.22",
+   "0.961"
+  ],
+  [
+   "",
+   "F Control",
+   "99.68 ± 0.20",
+   "7.14 ± 1.26",
+   "90.84 ± 0.27",
+   "15.98 ± 0.70",
+   "89.11 ± 0.35",
+   "0.966"
+  ],
+  [
+   "Decision-only",
+   "A Frozen",
+   "100.00 ± 0.00",
+   "4.48 ± 1.03",
+   "89.28 ± 0.19",
+   "15.34 ± 0.67",
+   "88.49 ± 0.25",
+   "0.961"
+  ],
+  [
+   "",
+   "B Static",
+   "99.72 ± 0.18",
+   "2.54 ± 0.39",
+   "90.74 ± 0.37",
+   "15.98 ± 0.72",
+   "89.06 ± 0.36",
+   "0.966"
+  ],
+  [
+   "",
+   "C Rehearsal",
+   "99.10 ± 0.70",
+   "5.32 ± 1.41",
+   "89.04 ± 0.41",
+   "15.24 ± 0.50",
+   "88.39 ± 0.33",
+   "0.961"
+  ],
+  [
+   "",
+   "D No rehearsal",
+   "94.78 ± 2.81",
+   "9.22 ± 1.46",
+   "86.41 ± 2.27",
+   "14.12 ± 0.81",
+   "87.31 ± 1.05",
+   "0.956"
+  ],
+  [
+   "",
+   "E Balanced",
+   "99.78 ± 0.24",
+   "4.28 ± 1.02",
+   "89.30 ± 0.27",
+   "15.45 ± 0.89",
+   "88.46 ± 0.24",
+   "0.961"
+  ],
+  [
+   "",
+   "F Control",
+   "99.68 ± 0.20",
+   "3.84 ± 0.68",
+   "90.84 ± 0.27",
+   "15.98 ± 0.70",
+   "89.11 ± 0.35",
+   "0.966"
+  ]
+ ],
+ [
+  [
+   "Setting",
+   "Arm",
+   "Attack-induced ASR",
+   "Clean recall",
+   "Clean FPR",
+   "Clean F1"
+  ],
+  [
+   "FGSM-like",
+   "A Frozen",
+   "7.80 ± 1.21",
+   "89.28 ± 0.19",
+   "15.34 ± 0.67",
+   "88.49 ± 0.25"
+  ],
+  [
+   "",
+   "B Static",
+   "4.01 ± 2.60",
+   "90.66 ± 3.02",
+   "16.14 ± 6.06",
+   "88.97 ± 0.58"
+  ],
+  [
+   "",
+   "C Rehearsal",
+   "5.02 ± 2.54",
+   "91.45 ± 1.90",
+   "20.93 ± 4.98",
+   "87.72 ± 0.78"
+  ],
+  [
+   "",
+   "D No rehearsal",
+   "0.00 ± 0.00",
+   "99.98 ± 0.01",
+   "43.70 ± 0.95",
+   "84.86 ± 0.28"
+  ],
+  [
+   "",
+   "E Balanced",
+   "11.66 ± 2.44",
+   "83.85 ± 1.13",
+   "5.50 ± 1.40",
+   "89.04 ± 0.29"
+  ],
+  [
+   "",
+   "F Control",
+   "7.21 ± 1.19",
+   "90.61 ± 0.97",
+   "15.51 ± 2.43",
+   "89.15 ± 0.47"
+  ],
+  [
+   "Decision-only",
+   "A Frozen",
+   "4.48 ± 1.03",
+   "89.28 ± 0.19",
+   "15.34 ± 0.67",
+   "88.49 ± 0.25"
+  ],
+  [
+   "",
+   "B Static",
+   "1.80 ± 1.50",
+   "90.66 ± 3.02",
+   "16.14 ± 6.06",
+   "88.97 ± 0.58"
+  ],
+  [
+   "",
+   "C Rehearsal",
+   "2.27 ± 1.39",
+   "91.36 ± 2.01",
+   "20.66 ± 5.32",
+   "87.76 ± 0.84"
+  ],
+  [
+   "",
+   "D No rehearsal",
+   "0.00 ± 0.00",
+   "99.92 ± 0.16",
+   "42.57 ± 1.39",
+   "85.16 ± 0.35"
+  ],
+  [
+   "",
+   "E Balanced",
+   "7.87 ± 1.48",
+   "83.15 ± 1.19",
+   "4.77 ± 1.32",
+   "88.91 ± 0.40"
+  ],
+  [
+   "",
+   "F Control",
+   "3.50 ± 0.82",
+   "90.61 ± 0.97",
+   "15.51 ± 2.43",
+   "89.15 ± 0.47"
+  ]
+ ],
+ [
+  [
+   "Arm",
+   "Labels (FGSM-like and BIM-like)",
+   "Labels (decision-only)",
+   "Adaptation queries (decision-only)",
+   "Time, s (FGSM-like)",
+   "Time, s (BIM-like)",
+   "Time, s (decision-only)"
+  ],
+  [
+   "A Frozen",
+   "0",
+   "0",
+   "21,700",
+   "0.44",
+   "0.44",
+   "0.75"
+  ],
+  [
+   "B Static",
+   "0 (500 pre-built examples)",
+   "0 (500 pre-built examples)",
+   "22,090",
+   "0.88",
+   "0.88",
+   "1.20"
+  ],
+  [
+   "C Rehearsal",
+   "77.4 (69 to 90)",
+   "62.8 (56 to 75)",
+   "22,146",
+   "0.45",
+   "0.45",
+   "0.76"
+  ],
+  [
+   "D No rehearsal",
+   "26.4 (21 to 31)",
+   "21.4 (19 to 25)",
+   "24,017",
+   "0.44",
+   "0.44",
+   "0.79"
+  ],
+  [
+   "E Balanced",
+   "111.4 (99 to 121)",
+   "100.0 (90 to 110)",
+   "20,324",
+   "0.45",
+   "0.45",
+   "0.74"
+  ],
+  [
+   "F Control",
+   "0",
+   "0",
+   "21,758",
+   "0.88",
+   "0.89",
+   "1.18"
+  ]
+ ],
+ [
+  [
+   "Arm",
+   "FGSM-like",
+   "BIM-like",
+   "Decision-only"
+  ],
+  [
+   "A Frozen",
+   "9.11 ± 0.93",
+   "9.12 ± 0.93",
+   "5.32 ± 0.54"
+  ],
+  [
+   "B Static",
+   "5.43 ± 0.48",
+   "5.42 ± 0.49",
+   "2.73 ± 0.37"
+  ],
+  [
+   "B-dec Static, decision-only examples",
+   "Not run",
+   "Not run",
+   "4.05 ± 0.45"
+  ],
+  [
+   "C Rehearsal (successful evasions only)",
+   "8.96 ± 0.98",
+   "8.96 ± 0.98",
+   "5.17 ± 0.57"
+  ],
+  [
+   "D No rehearsal",
+   "6.77 ± 0.76",
+   "6.76 ± 0.75",
+   "4.10 ± 0.80"
+  ],
+  [
+   "E Balanced",
+   "8.49 ± 0.93",
+   "8.50 ± 0.94",
+   "4.75 ± 0.61"
+  ],
+  [
+   "F Control",
+   "7.99 ± 0.75",
+   "7.99 ± 0.75",
+   "4.25 ± 0.51"
+  ],
+  [
+   "M1 Matched one-time, 1 × 2 epochs",
+   "9.42 ± 0.98",
+   "9.42 ± 0.98",
+   "5.55 ± 0.82"
+  ],
+  [
+   "M1-e10 Matched one-time, 1 × 10 epochs",
+   "6.67 ± 0.71",
+   "6.67 ± 0.71",
+   "5.07 ± 0.61"
+  ],
+  [
+   "M1-seq Matched one-time, 5 × 2 epochs",
+   "8.26 ± 0.89",
+   "8.27 ± 0.89",
+   "5.16 ± 0.62"
+  ],
+  [
+   "M2 Matched all-attempt incremental, 5 × 2 epochs",
+   "8.25 ± 0.88",
+   "8.26 ± 0.89",
+   "5.18 ± 0.62"
+  ]
+ ],
+ [
+  [
+   "First minus second",
+   "FGSM-like",
+   "BIM-like",
+   "Decision-only"
+  ],
+  [
+   "M1 − M2",
+   "1.17 [0.80, 1.53], 1/20",
+   "1.16 [0.80, 1.53], 1/20",
+   "0.37 [−0.13, 0.87], 8/20"
+  ],
+  [
+   "M1-e10 − M2",
+   "−1.58 [−1.96, −1.20], 20/20",
+   "−1.59 [−1.98, −1.20], 20/20",
+   "−0.11 [−0.33, 0.11], 10/20, 1 tied"
+  ],
+  [
+   "M1-seq − M2",
+   "0.01 [−0.02, 0.04], 2/20, 15 tied",
+   "0.01 [−0.01, 0.04], 1/20, 16 tied",
+   "−0.01 [−0.13, 0.11], 4/20, 12 tied"
+  ],
+  [
+   "M1 − M1-seq",
+   "1.16 [0.80, 1.51], 1/20",
+   "1.15 [0.79, 1.51], 1/20",
+   "0.38 [−0.10, 0.87], 9/20"
+  ],
+  [
+   "M2 − A Frozen",
+   "−0.86 [−1.37, −0.35], 15/20",
+   "−0.86 [−1.38, −0.35], 15/20",
+   "−0.15 [−0.39, 0.10], 14/20"
+  ],
+  [
+   "M1 − A Frozen",
+   "0.31 [−0.20, 0.82], 10/20",
+   "0.30 [−0.21, 0.81], 10/20",
+   "0.22 [−0.28, 0.73], 12/20"
+  ],
+  [
+   "M1-e10 − A Frozen",
+   "−2.44 [−2.87, −2.01], 20/20",
+   "−2.45 [−2.88, −2.02], 20/20",
+   "−0.26 [−0.48, −0.03], 13/20"
+  ],
+  [
+   "M1-seq − A Frozen",
+   "−0.85 [−1.36, −0.33], 15/20",
+   "−0.85 [−1.36, −0.34], 15/20",
+   "−0.16 [−0.38, 0.06], 13/20"
+  ],
+  [
+   "M2 − C Rehearsal",
+   "−0.71 [−0.95, −0.47], 18/20",
+   "−0.70 [−0.94, −0.46], 18/20",
+   "0.01 [−0.12, 0.14], 10/20, 1 tied"
+  ],
+  [
+   "B Static − M1",
+   "−3.99 [−4.65, −3.34], 20/20",
+   "−4.00 [−4.66, −3.34], 20/20",
+   "−2.82 [−3.50, −2.14], 20/20"
+  ],
+  [
+   "B Static − B-dec",
+   "Not run",
+   "Not run",
+   "−1.32 [−1.50, −1.14], 20/20"
+  ],
+  [
+   "B Static − A Frozen",
+   "−3.68 [−4.37, −3.00], 20/20",
+   "−3.70 [−4.38, −3.02], 20/20",
+   "−2.59 [−2.92, −2.27], 20/20"
+  ],
+  [
+   "F Control − A Frozen",
+   "−1.12 [−1.71, −0.54], 16/20",
+   "−1.13 [−1.71, −0.55], 16/20",
+   "−1.08 [−1.38, −0.78], 19/20"
+  ],
+  [
+   "B Static − F Control",
+   "−2.56 [−3.02, −2.11], 20/20",
+   "−2.57 [−3.03, −2.10], 20/20",
+   "−1.51 [−1.76, −1.27], 20/20"
+  ],
+  [
+   "B Static − C Rehearsal",
+   "−3.54 [−4.24, −2.83], 20/20",
+   "−3.54 [−4.25, −2.82], 20/20",
+   "−2.44 [−2.83, −2.06], 20/20"
+  ]
+ ],
+ [
+  [
+   "Configuration",
+   "C",
+   "M1",
+   "M1-e10",
+   "M2",
+   "M1 − M2, M2 lower",
+   "M1-e10 − M2, M1-e10 lower"
+  ],
+  [
+   "Default (2 epochs, lr 0.001, memory 1,000)",
+   "8.96 ± 0.98",
+   "9.42 ± 0.98",
+   "6.67 ± 0.71",
+   "8.25 ± 0.88",
+   "1.17, 19/20",
+   "−1.58, 20/20"
+  ],
+  [
+   "Update epochs 1",
+   "8.97 ± 0.99",
+   "9.57 ± 1.11",
+   "7.53 ± 0.76",
+   "8.68 ± 0.88",
+   "0.88, 15/20",
+   "−1.15, 20/20"
+  ],
+  [
+   "Update epochs 4",
+   "8.05 ± 0.92",
+   "8.14 ± 0.92",
+   "5.33 ± 0.57",
+   "7.54 ± 0.90",
+   "0.60, 16/20",
+   "−2.21, 20/20"
+  ],
+  [
+   "Learning rate 0.0005",
+   "8.80 ± 0.93",
+   "9.67 ± 1.12",
+   "7.74 ± 0.85",
+   "8.60 ± 0.92",
+   "1.07, 18/20",
+   "−0.86, 20/20"
+  ],
+  [
+   "Learning rate 0.002",
+   "8.34 ± 0.96",
+   "8.86 ± 0.99",
+   "5.33 ± 0.57",
+   "7.47 ± 0.91",
+   "1.38, 19/20",
+   "−2.14, 20/20"
+  ],
+  [
+   "Memory 500",
+   "8.04 ± 0.65",
+   "9.60 ± 0.88",
+   "6.46 ± 0.53",
+   "7.46 ± 0.62",
+   "2.13, 17/20",
+   "−1.00, 19/20"
+  ],
+  [
+   "Memory 2,000",
+   "7.80 ± 0.68",
+   "8.10 ± 0.71",
+   "5.79 ± 0.61",
+   "7.44 ± 0.59",
+   "0.66, 15/20",
+   "−1.65, 20/20"
+  ]
+ ],
+ [
+  [
+   "Feature (unit)",
+   "Largest allowed change",
+   "Cohort median",
+   "Note"
+  ],
+  [
+   "dur (as recorded)",
+   "1.8",
+   "0.000009",
+   "Bound is about 200,000 times the median"
+  ],
+  [
+   "rate (not in official list)",
+   "30,000",
+   "111,111",
+   "Equals (spkts + dpkts − 1) / dur in the data"
+  ],
+  [
+   "sload (bits per second)",
+   "1.68 × 10⁸ to 1.80 × 10⁸",
+   "5.07 × 10⁷ to 5.70 × 10⁷",
+   "Bound exceeds the median"
+  ],
+  [
+   "dload (bits per second)",
+   "6.37 × 10⁵ to 6.73 × 10⁵",
+   "0",
+   "Median flow has no destination load"
+  ],
+  [
+   "sinpkt, dinpkt (ms)",
+   "1,800 to 2,531, and 1,702",
+   "0.009, and 0",
+   ""
+  ],
+  [
+   "sjit, djit (ms)",
+   "43,810, and 7,796 to 8,682",
+   "0, and 0",
+   ""
+  ],
+  [
+   "tcprtt, synack, ackdat (as recorded)",
+   "0.069 to 0.076, 0.051 to 0.063, and 0.046",
+   "0, 0, and 0",
+   "tcprtt = synack + ackdat by definition [36]"
+  ]
+ ],
+ [
+  [
+   "Limitation",
+   "What it means here",
+   "Effect on interpretation"
+  ],
+  [
+   "Single benchmark and small model",
+   "One dataset (UNSW-NB15), one multilayer perceptron with 48 hidden units",
+   "No claim of transfer to other datasets, traffic types, or architectures"
+  ],
+  [
+   "Seed counts and inference",
+   "Five seeds in the main comparison (t intervals with 4 degrees of freedom) and 20 in the extension (19 degrees of freedom). Sign tests in the extension are descriptive, with no multiplicity correction",
+   "Patterns and trade-offs are described, and no arm is called generally superior"
+  ],
+  [
+   "Record-level splits",
+   "The official training partition is split by individual record (seeded, stratified 70/15/15) into initial-training, validation, and adaptation parts, with no grouping by capture session, source, or attack campaign. The dataset also has known overlap and imbalance issues [15]",
+   "Related records could occur in more than one of these parts, which is a risk of dependence and of optimistic results and not demonstrated leakage. The official test partition was not split this way"
+  ],
+  [
+   "Feature-space attacks only",
+   "Eleven normalized features are perturbed within a fixed L∞ bound, with no packet reconstruction or protocol checks [4], [23], [24]",
+   "Neither attack-induced ASR nor the post-attack benign rate shows that the perturbed flows could occur in real traffic. Most perturbed flows break the tcprtt and rate relations, and perturbed non-TCP flows receive TCP timing values (Section 5.10)"
+  ],
+  [
+   "Simulated labels",
+   "Evasion labels come from dataset ground truth, as an idealized oracle",
+   "Real analyst delay, error, and workload are not measured"
+  ],
+  [
+   "Unmatched budgets in the main comparison",
+   "The static arm uses 500 pre-built examples and the incremental arms use about 21 to 111 successful-evasion labels. The extension matched the number and source-flow set of attack attempts, not the perturbed vectors, and one arm also matched optimizer steps and exposure",
+   "Main-comparison differences cannot be attributed to scheduling. In the extension, the matched arms' order followed training structure and exposure (Section 5.8). The matched incremental schedule trains on all attempts, so it is not the successful-evasion policy of arms C to E, and other matching rules were not tested"
+  ],
+  [
+   "Fresh, non-adaptive attacker",
+   "Each round attacks the current model afresh, with no attacker that learns across rounds and no defense-aware attack",
+   "Results do not cover an adaptive adversary"
+  ],
+  [
+   "Cross-attack static baseline",
+   "In the decision-only evaluation of the main comparison, the static arm is trained on FGSM-like examples. The extension adds B-dec, trained on decision-only examples",
+   "B-dec had higher observed attack-induced ASR than the cross-attack static arm, so using the threat-model-matched baseline would not have lowered the static arm's observed ASR in that setting"
+  ],
+  [
+   "Update configuration",
+   "The main comparison used one configuration per policy. The extension varied update epochs, learning rate, and memory size one at a time for arms C, M1, M1-e10, and M2, in the FGSM-like setting only",
+   "In the FGSM-like setting, M2 had lower observed ASR than M1 and higher observed ASR than M1-e10 in most seeds in all seven configurations (Section 5.9). The BIM-like and decision-only settings, M1-seq, other policies, and combinations of settings were not varied"
+  ],
+  [
+   "Evaluation cohort and thresholds",
+   "The cohort contains only flows the initial model detected at the fixed threshold, and updates use the fixed threshold while the primary evaluation uses arm-specific thresholds",
+   "Findings apply to that cohort and to this threshold protocol"
+  ],
+  [
+   "Gradient settings gave nearly identical outcomes",
+   "The one-step (FGSM-like) and five-step (BIM-like) gradient settings gave nearly identical round-5 outcomes, and identical label counts for every arm and seed, although their step rules differ. This is an observed result, and its cause was not tested",
+   "The two gradient settings should not be counted as separate evidence of robustness at this bound. A different or stronger gradient attack may give different results"
+  ],
+  [
+   "Reproduction and environment",
+   "A rerun from the downloaded data matched 5 of 15 original runs to within float32 rounding and 3 to within 3 × 10⁻⁵, and 7 showed small drift, up to 3.3 points in single round values. The original environment and exact code version are unknown",
+   "Tables 7 to 11 report the original outputs, whose five-seed means differ from the rerun by at most 0.46 points. The extension uses rerun outputs for seeds 17 to 21. Neither bit-for-bit reproduction nor the archived runner's identity with the original code is claimed"
+  ],
+  [
+   "Data provenance",
+   "The partitions come from a third-party redistribution. The official test partition is identical in content, and the official training partition was not compared",
+   "The training partition's identity rests on the Zenodo checksum"
+  ],
+  [
+   "Timing scope",
+   "Wall-clock time from one machine and a small NumPy model, excluding test-time evaluation. Each arm's time includes attack generation against its own model, which depends on the attack, so arm differences combine update and attack costs",
+   "Costs should not be extrapolated to larger detectors, and small differences are not read as policy costs"
+  ]
+ ]
+]

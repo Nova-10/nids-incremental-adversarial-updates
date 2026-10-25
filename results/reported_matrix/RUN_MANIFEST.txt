@@ -1,0 +1,10 @@
+Tier 2 control-preset full run
+
+Command: run_matrix_ext.py --seeds 17 18 19 20 21 --presets control
+Dataset: UNSW-NB15, full 175,341-row training partition and 82,332-row test partition
+Protocol: 5 rounds, 5 epochs, 6 arms, three attack settings (FGSM-like, BIM-like five-step, decision-only)
+Raw outputs: 15 per-run CSV files and 15 per-run metadata JSON files; every CSV contains 30 rows (6 arms x 5 rounds).
+The runner labelled its deterministic five-step, no-random-start attack PGD-like. The CSV attack label was corrected to BIM-like to match its configured method; the run IDs and metadata preserve attack_steps=5 and random_start=false.
+tier2_round5_summary_mean_sd.csv reports round-five means and sample SD across the five seeds. Rate metrics are in percentage points; AUC remains 0-1.
+tier2_round5_paired_differences.csv reports paired seed differences with descriptive t intervals (df=4); do not interpret these as confirmatory significance tests.
+The analysis is exploratory, with five seeds.
