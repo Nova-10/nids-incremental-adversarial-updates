@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it using the metadata below."
+title: "Code and run outputs for an exploratory feature-space comparison of one-time and incremental adversarial updates for network intrusion detection"
+authors:
+  - family-names: "Kumar R."
+    given-names: "Ajay"
+    affiliation: "SRM Institute of Science and Technology"
+license: MIT
+repository-code: "https://github.com/Nova-10/nids-incremental-adversarial-updates"
