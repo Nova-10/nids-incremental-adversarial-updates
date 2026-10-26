@@ -43,3 +43,7 @@ The design of the extension and sensitivity analysis was written before any run:
 
 ## 6. Integrity
 SHA256SUMS.txt lists every file in the archive.
+
+
+## Recipe-matched incremental arm (M2-full, manuscript v14)
+Design: `design/DESIGN_ADDENDUM_2.md`. Run all 60 jobs with `bash code/run_jobs_full.sh` (seeds 17-36, three attack settings, output in `results_full/`), then `python3 code/analyze_matched_v3.py results_full analysis_full`, `python3 code/make_fig5_v3.py` and `python3 code/make_fig6.py`. Outputs as used in the paper are in `results/matched_full/` and `analysis/matched_full/`.
